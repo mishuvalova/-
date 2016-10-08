@@ -1,11 +1,13 @@
 import numpy as np
 
 
-def read_matrix(n, m):
-    c = []
-    for _ in range(n):
-        c.append([int(x) for x in input().split()])
-    m[:n, :n] = np.matrix(c)
+def read_matrix(n):
+    n_widening = 1
+    while n_widening < n:
+        n_widening *= 2
+    m = np.zeros((n_widening, n_widening), dtype=np.int)
+    for i in range(n):
+        m[i, :n] = list(map(int, input().split(' ')))
     return m
 
 
@@ -44,12 +46,9 @@ def print_matrix(m):
 
 def main():
     n = int(input())
-    n_widening = 1
-    while n_widening < n:
-        n_widening *= 2
-    a = np.zeros((n_widening, n_widening), dtype=int)
-    b = np.zeros((n_widening, n_widening), dtype=int)
-    result = strassen(read_matrix(n, a), read_matrix(n, b))
+    a = read_matrix(n)
+    b = read_matrix(n)
+    result = strassen(a, b)
     print_matrix(result[:n, :n])
 
 
